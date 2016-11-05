@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/name" />
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:weightSum="1">
+
+        <CheckBox
+            android:text="Kupiony       "
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox"
+            android:textColorLink="?android:attr/colorActivatedHighlight" />
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="47dp"
+            android:id="@+id/edit"
+            android:drawableLeft="@mipmap/ic_launcher"
+            />
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="47dp"
+            android:drawableLeft="@mipmap/delete"
+            android:id="@+id/remove" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/darker_gray"/>
+
+</LinearLayout>
