@@ -3,6 +3,8 @@ package pl.pjatk.smb1.enums;
 
 import android.graphics.Color;
 
+import java.util.Objects;
+
 
 /**
  * Created by user on 2016-11-05.
@@ -34,7 +36,7 @@ public enum ColorTxt {
 
  public static ColorTxt getValue(String dispalName) {
         for(ColorTxt e: ColorTxt.values()) {
-            if(e.getDisplayName() == dispalName) {
+            if(Objects.equals(e.getDisplayName(), dispalName)) {
                 return e;
             }
         }

@@ -10,7 +10,6 @@ import android.widget.EditText;
 
 import pl.pjatk.smb1.data.DatabaseHandler;
 import pl.pjatk.smb1.data.DatabaseContract;
-import pl.pjatk.smb1.data.ProductContentProvider;
 
 public class ProductEditActivity extends AppCompatActivity {
 
@@ -28,7 +27,6 @@ public class ProductEditActivity extends AppCompatActivity {
         productId = i.getIntExtra("product", 0);
         Cursor c = databaseHandler.getById(productId);
         c.moveToFirst();
-
        productName.setText(c.getString(c.getColumnIndex(DatabaseContract.ProductEntry.COLUMN_NAME)));
 
     }

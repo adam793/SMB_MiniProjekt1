@@ -18,20 +18,12 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
-        this.bindSave();
+        this.save();
         addProductActivity = this;
     }
 
 
-    private void insertData() {
-        ContentValues[] valuesAttr = new ContentValues[1];
-        valuesAttr[0] = new ContentValues();
-        EditText name  = (EditText)findViewById(R.id.name);
-        valuesAttr[0].put(DatabaseContract.ProductEntry.COLUMN_NAME, name.getText().toString());
-        getContentResolver().bulkInsert(DatabaseContract.ProductEntry.CONTENT_URI, valuesAttr);
-    }
-
-    private void bindSave() {
+    private void save() {
         final Button button = (Button) findViewById(R.id.save);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -41,4 +33,13 @@ public class AddProductActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void insertData() {
+        ContentValues valuesAttr = new ContentValues();
+        EditText name  = (EditText)findViewById(R.id.name);
+        valuesAttr.put(DatabaseContract.ProductEntry.COLUMN_NAME, name.getText().toString());
+        getContentResolver().insert(DatabaseContract.ProductEntry.CONTENT_URI,valuesAttr);
+    }
+
+
 }

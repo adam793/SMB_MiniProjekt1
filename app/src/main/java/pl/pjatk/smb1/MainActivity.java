@@ -26,12 +26,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    public void goToLst(View v) {
+    public void navigateToList(View v) {
         Intent i = new Intent(this, ProductListActivity.class);
         startActivity(i);
     }
 
-    public void goToSettings(View v) {
+    public void navigateToOptions(View v) {
         Intent i = new Intent(this, OptionsActivity.class);
         startActivity(i);
     }
