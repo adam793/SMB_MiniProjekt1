@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import pl.pjatk.smb1.data.DatabaseHandler;
-import pl.pjatk.smb1.data.ProductsContract;
+import pl.pjatk.smb1.data.DatabaseContract;
+import pl.pjatk.smb1.data.ProductContentProvider;
 
 public class ProductEditActivity extends AppCompatActivity {
 
@@ -28,13 +29,13 @@ public class ProductEditActivity extends AppCompatActivity {
         Cursor c = databaseHandler.getById(productId);
         c.moveToFirst();
 
-       productName.setText(c.getString(c.getColumnIndex(ProductsContract.ProductEntry.KEY_NAME)));
+       productName.setText(c.getString(c.getColumnIndex(DatabaseContract.ProductEntry.COLUMN_NAME)));
 
     }
 
     public void update(View v) {
         ContentValues values = new ContentValues();
-        values.put(ProductsContract.ProductEntry.KEY_NAME, productName.getText().toString());
+        values.put(DatabaseContract.ProductEntry.COLUMN_NAME, productName.getText().toString());
         databaseHandler.UpdateById(values, productId);
         Intent i = new Intent(this, ProductListActivity.class);
         startActivity(i);

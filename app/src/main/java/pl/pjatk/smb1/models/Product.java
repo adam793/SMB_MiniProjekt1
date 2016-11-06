@@ -9,7 +9,7 @@ public class Product {
 
     private String name;
 
-    private boolean isActive;
+    private boolean isDone;
 
     public int getId() {
         return id;
@@ -27,11 +27,11 @@ public class Product {
         this.name = n;
     }
 
-    public boolean isActive() {
-        return isActive;
+    public boolean isDone() {
+        return isDone;
     }
 
-    public void setActive(boolean active) {
-        isActive = active;
+    public void setDone(boolean done) {
+        isDone = done;
     }
 }

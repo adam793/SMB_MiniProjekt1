@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +13,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CursorAdapter;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import pl.pjatk.smb1.ProductEditActivity;
-import pl.pjatk.smb1.R;
 import pl.pjatk.smb1.data.DatabaseHandler;
-import pl.pjatk.smb1.data.ProductsContract;
+import pl.pjatk.smb1.data.DatabaseContract;
 import pl.pjatk.smb1.enums.ColorTxt;
 
 /**
@@ -45,20 +41,14 @@ public class ProductsAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         manipulationOnProductText(view, context, cursor);
-        final int id = cursor.getInt(cursor.getColumnIndex(ProductsContract.ProductEntry.KEY_ID));
+        int id = cursor.getInt(cursor.getColumnIndex(DatabaseContract.ProductEntry.COLUMN_ID));
 
         configCheckBox(view, cursor, id);
+        configRemoveButton(view, id,cursor);
+        configEditButton(view, id);
+    }
 
-        Button btn = (Button) view.findViewById(R.id.remove);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ctx.getContentResolver().delete(ProductsContract.ProductEntry.CONTENT_URI, ProductsContract.ProductEntry.KEY_ID+"="+id, null);
-                swapCursor(db.getAll());
-            }
-        });
-
-
+    private void configEditButton(View view, final int id) {
         Button editbtn = (Button) view.findViewById(R.id.edit);
         editbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,23 +60,35 @@ public class ProductsAdapter extends CursorAdapter {
         });
     }
 
-    private void configCheckBox(View view, Cursor cursor, final int id) {
-        CheckBox cb= (CheckBox) view.findViewById(R.id.checkBox);
-        cb.setChecked(cursor.getInt(cursor.getColumnIndex(ProductsContract.ProductEntry.KEY_ACTIVE)) == 1);
+    private void configRemoveButton(final View view, final int id, final Cursor cursor) {
+        final Button btn = (Button) view.findViewById(R.id.remove);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ctx.getContentResolver().delete(DatabaseContract.ProductEntry.CONTENT_URI, DatabaseContract.ProductEntry.COLUMN_ID +"="+id, null);
+                swapCursor(db.getAll());
+            }
 
+        });
+    }
+
+    private void configCheckBox(View view, Cursor cursor, final int id) {
+        final CheckBox cb= (CheckBox) view.findViewById(R.id.checkBox);
+        cb.setChecked(cursor.getInt(cursor.getColumnIndex(DatabaseContract.ProductEntry.COLUMN_DONE)) == 1);
         cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 ContentValues values = new ContentValues();
-                values.put(ProductsContract.ProductEntry.KEY_ACTIVE, isChecked);
+                values.put(DatabaseContract.ProductEntry.COLUMN_DONE, isChecked);
                 db.UpdateById(values, id);
 
             }
         });
+
     }
 
     private void manipulationOnProductText(View view, Context context, Cursor cursor) {
         TextView name = (TextView) view.findViewById(R.id.name);
-        name.setText(cursor.getString(cursor.getColumnIndex(ProductsContract.ProductEntry.KEY_NAME)));
+        name.setText(cursor.getString(cursor.getColumnIndex(DatabaseContract.ProductEntry.COLUMN_NAME)));
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         float fontSize = sharedPref.getFloat("fontSize", 6);
         name.setTextSize(fontSize);

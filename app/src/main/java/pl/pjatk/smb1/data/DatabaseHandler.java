@@ -7,13 +7,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.database.Cursor;
 
-/**
- * Created by user on 14.10.2016.
- */
+import static pl.pjatk.smb1.data.DatabaseContract.DATABASE_NAME;
+import static pl.pjatk.smb1.data.DatabaseContract.DATABASE_VERSION;
+
+
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 3;
-    private static final String DATABASE_NAME = "productsManager";
+
     private Context ctx;
 
     public DatabaseHandler(Context context) {
@@ -22,29 +22,29 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public Cursor getAll() {
-        return ctx.getContentResolver().query(ProductsContract.ProductEntry.CONTENT_URI, null, null, null, ProductsContract.ProductEntry.KEY_ID + " DESC");
+        return ctx.getContentResolver().query(DatabaseContract.ProductEntry.CONTENT_URI, null, null, null, DatabaseContract.ProductEntry.COLUMN_ID + " ASC");
     }
 
     public Cursor getById(int id) {
         return ctx.getContentResolver().query(
-                ProductsContract.ProductEntry.CONTENT_URI, null, ProductsContract.ProductEntry.KEY_ID + "=" + id, null, null);
+                DatabaseContract.ProductEntry.CONTENT_URI, null, DatabaseContract.ProductEntry.COLUMN_ID + "=" + id, null, null);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + ProductsContract.ProductEntry.TABLE_PRODUCTS + "("
-                + ProductsContract.ProductEntry.KEY_ID + " INTEGER PRIMARY KEY," + ProductsContract.ProductEntry.KEY_NAME + " TEXT, " + ProductsContract.ProductEntry.KEY_ACTIVE + " INTEGER)";
+        String CREATE_CONTACTS_TABLE = "CREATE TABLE " + DatabaseContract.ProductEntry.TABLE_PRODUCTS + "("
+                + DatabaseContract.ProductEntry.COLUMN_ID + " INTEGER PRIMARY KEY," + DatabaseContract.ProductEntry.COLUMN_NAME + " TEXT, " + DatabaseContract.ProductEntry.COLUMN_DONE + " INTEGER)";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + ProductsContract.ProductEntry.TABLE_PRODUCTS);
+        db.execSQL("DROP TABLE IF EXISTS " + DatabaseContract.ProductEntry.TABLE_PRODUCTS);
         onCreate(db);
     }
 
     public void UpdateById(ContentValues values, int pId) {
-        ctx.getContentResolver().update(ProductsContract.ProductEntry.CONTENT_URI, values, ProductsContract.ProductEntry.KEY_ID + "=" + pId, null);
+        ctx.getContentResolver().update(DatabaseContract.ProductEntry.CONTENT_URI, values, DatabaseContract.ProductEntry.COLUMN_ID + "=" + pId, null);
 
     }
 }

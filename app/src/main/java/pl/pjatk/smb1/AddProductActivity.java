@@ -8,12 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import pl.pjatk.smb1.data.DatabaseHandler;
-import pl.pjatk.smb1.data.ProductsContract;
+import pl.pjatk.smb1.data.DatabaseContract;
 
 public class AddProductActivity extends AppCompatActivity {
 
-    private DatabaseHandler databaseHandler;
     private AddProductActivity addProductActivity;
 
     @Override
@@ -29,8 +27,8 @@ public class AddProductActivity extends AppCompatActivity {
         ContentValues[] valuesAttr = new ContentValues[1];
         valuesAttr[0] = new ContentValues();
         EditText name  = (EditText)findViewById(R.id.name);
-        valuesAttr[0].put(ProductsContract.ProductEntry.KEY_NAME, name.getText().toString());
-        getContentResolver().bulkInsert(ProductsContract.ProductEntry.CONTENT_URI, valuesAttr);
+        valuesAttr[0].put(DatabaseContract.ProductEntry.COLUMN_NAME, name.getText().toString());
+        getContentResolver().bulkInsert(DatabaseContract.ProductEntry.CONTENT_URI, valuesAttr);
     }
 
     private void bindSave() {
